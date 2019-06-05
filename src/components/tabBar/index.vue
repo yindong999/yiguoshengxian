@@ -1,18 +1,47 @@
 <template>
-	<div class="tabBar">
-		<tabItem icon="home" txt="首页"></tabItem>
-		<tabItem icon="plus-square-o" txt="分类"></tabItem>
-		<tabItem icon="cutlery" txt="吃饭吧"></tabItem>
-		<tabItem icon="shopping-cart" txt="购物车"></tabItem>
-		<tabItem icon="user" txt="我的易果"></tabItem>
+	<div class="tabBar" v-if="isShow">
+		<tabItem name="home" icon="home" txt="首页"></tabItem>
+		<tabItem name="" icon="plus-square-o" txt="分类"></tabItem>
+		<tabItem name="" icon="cutlery" txt="吃饭吧"></tabItem>
+		<tabItem name="shoppingCart" icon="shopping-cart" txt="购物车"></tabItem>
+		<tabItem name="mine" icon="user" txt="我的易果"></tabItem>
 	</div>
 </template>
 <script>
+	import router from "@/router"
 	import tabItem from "./tabItem.vue"
 	export default{
+		data(){
+			return{
+				isShow:true
+			}
+		},
 		components:{
 			tabItem
-		}
+		},
+		created(){
+        //全局前置路由钩子
+        router.beforeEach((to,from,next)=>{
+            switch (to.name) {
+                case "home":
+                    this.isShow = true
+                    break;
+                case "classify":
+                    this.isShow = true
+                    break;
+                case "shoppingCart":                  
+                    this.isShow = true
+                    break;
+                case "mine":                   
+                    this.isShow = true
+                    break;
+                default:
+                    this.isShow = false
+                    break;
+            }
+            next();
+        })
+    }
 	}
 </script>
 <style lang="scss" scoped>

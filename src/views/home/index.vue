@@ -28,7 +28,7 @@
 			<img src="@/assets/9288737670440573_658x819.jpg" alt="">
 		</div>
 		<!-- 商品列表，竖直方向 -->
-		<div class="dataList" v-for="data in dataList">
+		<router-link tag="div" v-for="data in dataList" :to="{name:'detail',params:{id:data._id,api:'dataList'}}" class="dataList">
 			<img :src="data.commoditysComponentList[0].pictureUrl" alt="">
 			<div class="right">
 				<p class="p1">{{data.commoditysComponentList[0].commodityName}}</p>
@@ -36,21 +36,24 @@
 				<p class="p3">
 					<span class="span1">￥{{data.commoditysComponentList[0].commodityPrice}}</span>
 					<span class="span2">{{data.commoditysComponentList[0].commoditySpec}}</span>
+					<i @click.stop="addGoodInCar(data)" class="fa fa-shopping-cart"></i>
 				</p>
+			</div>
+		</router-link>
+		<!-- 商品分类 -->
+		<div class="dataSort" v-for="data in dataSort">
+			<p class="title">· {{data.componentBase.customComponentName}} ·</p>
+			<div class="dataInfoBox">
+				<div class="dataInfo" v-for="Component in data.commoditysComponentList">
+					<img :src="Component.pictureUrl" alt="">
+					<p class="p1">{{Component.commodityName}}</p>
+					<p class="p2">
+						<span class="span1">￥{{Component.commodityPrice}}</span>
+						<span class="span2">{{Component.commoditySpec}}</span>
+					</p>
+				</div>
 			</div>
 		</div>
-		<!-- 商品分类 -->
-		<!-- <div class="dataSort">
-			<span>新鲜水果</span>
-			<div>
-				<img src="" alt="">
-				<p class="p1">adsada</p>
-				<p class="p2">
-					<span class="span1">sasad</span>
-					<span class="span2">asdad</span>
-				</p>
-			</div>
-		</div> -->
 		<!-- 底部 -->
 		<footer>
 			<p>沪IPC备09008015号</p>
@@ -59,6 +62,7 @@
 	</div>
 </template>
 <script>
+	import {mapActions} from "vuex"
 	import homeHeader from "@/components/header"
 	import homeBanner from "@/components/banner"
 	import Swiper from "swiper"
@@ -84,12 +88,18 @@
 				dataSort:[]
 			}
 		},
+		methods:{
+			...mapActions(["addGoodInCar"])
+		},
 		created(){
 			this.$http.get("/api/yg/dataBanner").then(res=>{
 				this.dataBanners = res.data.data.object_list;
 			});
 			this.$http.get("/api/yg/dataList").then(res=>{
 				this.dataList = res.data.data.object_list;
+			});
+			this.$http.get("/api/yg/dataSort").then(res=>{
+				this.dataSort = res.data.data.object_list;
 			})
 		}
 	}
@@ -207,6 +217,7 @@
 				};
 				.p3{
 					margin-top: 20px;
+					position: relative;
 					.span1{
 						font-size: 14px;
 						font-weight: bolder;
@@ -216,9 +227,79 @@
 						font-size: 10px;
 						color: #666;
 					};
+					i{
+						color:#fff;
+						background: #01b27a;
+						width:0.2rem;
+						height:0.2rem;
+						border-radius: 50%;
+						text-align: center;
+						line-height: 0.2rem;
+						font-size: 0.14rem;
+						position: absolute;
+						right:0.1rem;
+					}
 				}
 			}
 		};
+		.dataSort{
+			display:flex;
+			flex-direction: column;
+			align-items: center;
+			.title{
+				color:#000;
+				font-size: 12px;
+				height:30px;
+				line-height: 30px;
+			};
+			.dataInfoBox{
+				display: flex;
+				flex-wrap: wrap;
+				width:3rem;
+				margin:0 0.1rem;
+				justify-content: center;
+				align-items: center;
+			};
+			.dataInfo{
+				width:1.4rem;
+				border:1px solid #ccc;
+				border-radius: 5px;
+				margin:5px;
+				padding:0 5px;
+				img{
+					width:1rem;
+					height:1rem;
+					margin:auto;
+				};
+				.p1{
+					font-size: 12px;
+					color:#000;
+					height:30px;
+					line-height: 30px;
+					overflow:hidden;
+				    text-overflow:ellipsis;
+				    white-space:nowrap
+				};
+				.p2{
+					height:30px;
+					.span1{
+						color:#f00;
+						font-size: 12px;
+						font-weight: bolder;
+					};
+					.span2{
+						color:#999;
+						font-size: 10px;
+					}
+				}
+			}
+		};
+		footer{
+			display:flex;
+			flex-direction: column;
+			align-items: center;
+			font-size: 12px;
+		}
 		
 	}
 </style>

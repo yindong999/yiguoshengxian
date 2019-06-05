@@ -1,14 +1,19 @@
 <template>
-	<div class="tabItem">
+	<div class="tabItem" @click="change">
 		<i :class="['fa','fa-'+icon]"></i>
 		<div>{{txt}}</div>
 	</div>
 </template>
 <script>
 	export default{
-		props:["txt","icon"]
-
+		props:["txt","icon","name"],
+		methods:{
+			change(){
+				this.$router.push(this.name)
+			}
+		}
 	}
+
 </script>
 <style lang="scss" scoped>
 	.tabItem{

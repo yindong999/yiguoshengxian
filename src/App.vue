@@ -7,6 +7,10 @@
 <script>
 	import tabBar from "@/components/tabBar/"
 	export default{
+		created(){
+			this.$router.push("/")
+			this.$store.dispatch("initCar")
+		},
 		components:{
 			tabBar
 		}
