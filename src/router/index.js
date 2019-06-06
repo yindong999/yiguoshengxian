@@ -5,13 +5,23 @@ import shoppingCart from './shoppingCart'
 import detail from './detail'
 import category from './category'
 import moreCategoryList from './moreCategoryList'
-
+import eat from './eat'
+import mine from './mine'
+import login from './login'
+import register from './register'
+import eatdetail from './eatdetail'
+import headerDetail from './headerDetail'
+import setcontent from './setcontent'
+import AboutUs from './AboutUs'
+import business from './business'
+import RegistrationAgreement from './RegistrationAgreement'
 
 Vue.use(Router)
 
 export default new Router({
 	routes: [
 		{path:"/",redirect:"/home"},
-		home,shoppingCart,detail,category,moreCategoryList
+		home,shoppingCart,detail,category,moreCategoryList,mine,login,eat,eatdetail,register,headerDetail,setcontent,AboutUs,business,RegistrationAgreement
 	]
 })
+

@@ -14,7 +14,6 @@
 		</div>
 		<!-- 购物车商品信息 -->	
 		<div class="goodInfo" v-for="data in cars">
-		<input type="checkbox">
 			<img :src="data.commoditysComponentList[0].pictureUrl" alt="">
 			<div class="div1">
 				<p class="title">{{data.commoditysComponentList[0].commodityName}}</p>
@@ -107,15 +106,12 @@
 			width:100%;
 			height:0.8rem;
 			display: flex;
-			input[type="checkbox"]{
-				width:0.3rem;
-			}
 			img{
 				width:0.8rem;
 				height:0.8rem;
 			};
 			.div1{
-				width:2rem;
+				width:2.2rem;
 				display: flex;
 				flex-direction: column;
 			};

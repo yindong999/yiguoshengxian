@@ -1,17 +1,18 @@
 <template>
-	<div class="tabItem" @click="change">
-		<i :class="['fa','fa-'+icon]"></i>
-		<div>{{txt}}</div>
+	<div class="tabItem active" @click="change">
+		<i :class="['fa','fa-'+icon,name==flag?'active':'']"></i>
+		<div :class="[name==flag?'active':'']">{{txt}}</div>
 	</div>
 </template>
 <script>
 	export default{
-		props:["txt","icon","name"],
+		props:["txt","icon","name","flag"],
 		methods:{
 			change(){
 				this.$router.push(this.name)
+				this.$emit("changeColor",this.name)
 			}
-		}
+		},
 	}
 
 </script>
@@ -31,6 +32,9 @@
 		div{
 			font-size: 0.1rem;
 			color:#999;
+		};
+		.active{
+			color:#01b27a;
 		}
 	}
 </style>

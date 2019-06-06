@@ -64,13 +64,14 @@
 			height:0.3rem;
 			border:3px solid #ccc;
 			font-size:0.2rem;
-			text-align: center;
+			text-align: left;
 			line-height: 0.2rem;
 			border-radius: 50%;
 			color:#ccc;
 			position:fixed;
 			left:0.1rem;
 			top:0.1rem;
+			padding-left: 0.02rem;
 		};
 		img{
 			width:3rem;
