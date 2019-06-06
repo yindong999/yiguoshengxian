@@ -1,3 +1,5 @@
 export default {
-    cars:[]
+    cars:[],
+    city:'北京',
+    obj:Object
 }

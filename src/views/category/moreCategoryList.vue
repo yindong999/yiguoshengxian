@@ -146,39 +146,26 @@ export default {
     console.log(this.$route.params.id, this.$route.params.name);
     var url = this.$route.params.id;
     var likeName = this.$route.params.name;
-    /* 接口数组 */
-    var arrInter = [
-      "/api/yg/allFruit_list",
-      "/api/yg/allMeat_list",
-      "/api/yg/fastFood_list",
-      "/api/yg/homeFruit_list",
-      "/api/yg/milkCake_list",
-      "/api/yg/oil_list",
-      "/api/yg/seaFood_list",
-      "/api/yg/vegetables_list",
-      "/api/yg/wine_list",
-      "/api/yg/niceFood_list",
-      "/api/yg/egg_list"
-    ];
+   
     /* 用于存放结果的数据 */
     if (url == undefined) {
-     
-       this.$http.get("/api/yg/allFruit_list").then(res => {
+   
+       this.$http.get("/api/yg/allCategoryData").then(res => {
       // console.log(res.data.data.object_list);
-        
+        // console.log(res)
         var arrFruit = res.data.data.object_list;
-        var resFruit = arrFruit.filter(item => {
+          var resFruit = arrFruit.filter(item => {
           if (item.CommodityName.indexOf(likeName) !== -1) {
             return true;
           } else {
             return false;
           }
         });
-        this.resultFruit = resFruit;
+        // console.log(resFruit)
+        this.fruits = resFruit
       }
     );
-   this.fruits = this.resultFruit
- 
+  
    
     }else{
       this.getMsg(url,likeName)

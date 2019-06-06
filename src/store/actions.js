@@ -1,5 +1,8 @@
 import { SYNC_UPDATE } from "./const"
 export default {
+	transfer(store,obj){
+		store.commit('transfer',obj)
+	},
 	initCar(store){
 		let cars = getCar();
 		store.commit(SYNC_UPDATE,cars)

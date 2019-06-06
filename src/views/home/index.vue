@@ -86,6 +86,7 @@
 				dataBanners:[],
 				dataList:[],
 				dataSort:[]
+				
 			}
 		},
 		methods:{

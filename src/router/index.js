@@ -14,14 +14,16 @@ import headerDetail from './headerDetail'
 import setcontent from './setcontent'
 import AboutUs from './AboutUs'
 import business from './business'
+import city from './city'
 import RegistrationAgreement from './RegistrationAgreement'
+
 
 Vue.use(Router)
 
 export default new Router({
 	routes: [
 		{path:"/",redirect:"/home"},
-		home,shoppingCart,detail,category,moreCategoryList,mine,login,eat,eatdetail,register,headerDetail,setcontent,AboutUs,business,RegistrationAgreement
+		home,city,shoppingCart,detail,category,moreCategoryList,mine,login,eat,eatdetail,register,headerDetail,setcontent,AboutUs,business,RegistrationAgreement
 	]
 })
 

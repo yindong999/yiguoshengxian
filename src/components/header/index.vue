@@ -1,6 +1,6 @@
 <template>
 	<div class="header">
-		<span>北京</span>
+		<router-link tag='span' to='/city' :AreaId='obj.AreaId'>{{obj.AreaName==null?'北京':obj.AreaName}}</router-link> 
 		<i class="fa fa-sort-down"></i>
 		<div>
 			<i class="fa fa-search"></i>
@@ -9,8 +9,13 @@
 	</div>
 </template>
 <script>
+import {mapState} from "vuex"
 	export default{
-		
+		 computed:{
+			 ...mapState({
+				 obj:state=>state.obj
+			 })
+		 }
 	}
 </script>
 <style lang="scss" scoped>
