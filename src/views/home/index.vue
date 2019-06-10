@@ -62,6 +62,7 @@
 	</div>
 </template>
 <script>
+import { Toast } from 'mint-ui';
 	import {mapActions} from "vuex"
 	import homeHeader from "@/components/header"
 	import homeBanner from "@/components/banner"
@@ -90,7 +91,14 @@
 			}
 		},
 		methods:{
-			...mapActions(["addGoodInCar"])
+			// ...mapActions(["addGoodInCar"])
+			addGoodInCar(val){
+				this.$store.dispatch('addGoodInCar',val)
+				Toast({
+					message: '加入购物车成功',
+					duration: 1000
+					});
+			}
 		},
 		created(){
 			this.$http.get("/api/yg/dataBanner").then(res=>{
@@ -102,6 +110,10 @@
 			this.$http.get("/api/yg/dataSort").then(res=>{
 				this.dataSort = res.data.data.object_list;
 			})
+		},
+		beforeRouteEnter (to, from, next) {
+			 console.log(to.name)
+			 next()
 		}
 	}
 </script>

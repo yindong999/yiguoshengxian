@@ -6,7 +6,7 @@
     >
         <mt-cell
             title="返回"
-            href="home"
+            to="/home"
         >
         </mt-cell>
         <router-link 

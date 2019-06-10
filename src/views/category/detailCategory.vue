@@ -65,7 +65,6 @@ export default {
     obj:{
       handler(n,o){
         this.url = this.obj.interf
-        
       }
     }
   } 

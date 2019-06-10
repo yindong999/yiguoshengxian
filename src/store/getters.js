@@ -1,12 +1,14 @@
 export default {
-   computeTotal(state){
-        let cars = state.cars;
-        let total = { price: 0, num: 0 }
-        cars.forEach(item=>{
-            total.price += item.commoditysComponentList[0].commodityPrice * item.num;
-            total.num += item.num
-        })
-        total.price = total.price.toFixed(2);//保留2位小数 3.45
-        return total
-   }
+    computeTotal(state){
+        let arr = state.cars
+        var total = {price:0,num:0}
+       
+            arr.forEach(item=>{
+                total.num += item.num
+               
+                total.price += Number(item.SellPrice) * item.num
+            })
+            total.price = total.price.toFixed(2)
+            return total
+    }
 }

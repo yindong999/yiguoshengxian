@@ -1,5 +1,6 @@
 <template>
   <div>
+   
     <div class="header">
       <mt-navbar v-model="selected">
         <mt-tab-item id="1" @click.native="sortSell">销量</mt-tab-item>
@@ -25,7 +26,7 @@
             <span>￥{{f.SellPrice}}</span>
             <span>{{f.Spec}}</span>
             <span>
-              <i class="fa fa-plus-circle"></i>
+              <i class="fa fa-plus-circle" @click='addGoodsToCar(f)'></i>
             </span>
           </div>
         </div>
@@ -41,7 +42,13 @@
 </template>
 <script>
 import axios from 'axios'
+import {mapState} from 'vuex'
+import { Toast } from 'mint-ui';
 export default {
+  computed:{
+    ...mapState(['cars'])
+     
+  },
   data() {
     return {
       selected: "1",
@@ -59,6 +66,14 @@ export default {
     };
   },
   methods: {
+    addGoodsToCar(val){
+      // console.log(val)
+				this.$store.dispatch('addGoodsToCar',val)
+				Toast({
+					message: '加入购物车成功',
+					duration: 1000
+					});
+			},
     getMsg(url,likeName){
         this.$http.get(url).then(res => {
       // console.log(res.data.data.object_list);
@@ -143,16 +158,14 @@ export default {
        this.topp = topo
       
     });
-    console.log(this.$route.params.id, this.$route.params.name);
+    // console.log(this.$route.params.id, this.$route.params.name);
     var url = this.$route.params.id;
     var likeName = this.$route.params.name;
    
     /* 用于存放结果的数据 */
     if (url == undefined) {
-   
        this.$http.get("/api/yg/allCategoryData").then(res => {
       // console.log(res.data.data.object_list);
-        // console.log(res)
         var arrFruit = res.data.data.object_list;
           var resFruit = arrFruit.filter(item => {
           if (item.CommodityName.indexOf(likeName) !== -1) {
@@ -161,27 +174,14 @@ export default {
             return false;
           }
         });
-        // console.log(resFruit)
         this.fruits = resFruit
       }
     );
-  
-   
     }else{
       this.getMsg(url,likeName)
     }
-    
     // 加载完数据执行  按销量排序的方法
     this.sortSell();
-  },
-  
-  beforeRouteEnter: (to, from, next) => {
-    if (from.name === "category") {
-      //  this.$http.get(this.url).then(res=>{
-      //     console.log(res)
-      //  })
-    }
-    next();
   }
 };
 </script>
