@@ -13,7 +13,8 @@
 		},
 		components:{
 			tabBar
-		}
+		},
+		
 	}
 </script>
 <style lang="scss" scoped>

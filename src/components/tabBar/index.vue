@@ -28,26 +28,31 @@
 		created(){
         //全局前置路由钩子
         router.beforeEach((to,from,next)=>{
-            switch (to.name) {
-                case "home":
-                    this.isShow = true
-                    break;
-                case "category":
-                    this.isShow = true
-                    break;
-                case "shoppingCart":                  
-                    this.isShow = true
-                    break;
-                case "moreCategoryList":                  
-                    this.isShow = true
-                    break;
-                case "mine":                   
-                    this.isShow = true
-                    break;
-                default:
-                    this.isShow = false
-                    break;
-            }
+			console.log(to.name)
+			console.log(this)
+
+            // switch (to.name) {
+
+                // case "home":
+				// 	this.isShow = true
+					
+                //     break;
+                // case "category":
+                //     this.isShow = true
+                //     break;
+                // case "shoppingCart":                  
+                //     this.isShow = true
+                //     break;
+                // case "moreCategoryList":                  
+                //     this.isShow = true
+                //     break;
+                // case "mine":                   
+                //     this.isShow = true
+                //     break;
+                // default:
+                //     this.isShow = false
+                //     break;
+            // }
             next();
         })
     }

@@ -1,6 +1,6 @@
 <template>
   <div>
-   
+       
     <div class="header">
       <mt-navbar v-model="selected">
         <mt-tab-item id="1" @click.native="sortSell">销量</mt-tab-item>
@@ -16,81 +16,90 @@
         </mt-tab-item>
       </mt-navbar>
     </div>
-    <div class="content" >
-      <div class="eveFruit" v-for="f in fruits" :key="f._id">
-        <img :src="f.SmallPic" alt>
-        <div class="txt">
-          <p>{{f.CommodityName}}</p>
-          <p>{{f.SubTitle}}</p>
-          <div class="bott">
-            <span>￥{{f.SellPrice}}</span>
-            <span>{{f.Spec}}</span>
-            <span>
-              <i class="fa fa-plus-circle" @click='addGoodsToCar(f)'></i>
-            </span>
+    <div class="content">
+  
+        <div class="eveFruit" v-for="f in fruits" :key="f._id" @click="toDetail(f.CommodityId)">
+          <img :src="f.SmallPic" alt>
+          <div class="txt">
+            <p>{{f.CommodityName}}</p>
+            <p>{{f.SubTitle}}</p>
+            <div class="bott">
+              <span>￥{{f.SellPrice}}</span>
+              <span>{{f.Spec}}</span>
+              <span>
+                <i class="fa fa-plus-circle" @click.stop="addGoodsToCar(f)"></i>
+              </span>
+            </div>
           </div>
         </div>
-      </div>
+    
     </div>
-    <router-link tag='div' to='/shoppingCart'  class="cart">
+    <router-link tag="div" to="/shoppingCart" class="cart">
       <i class="fa fa-shopping-cart"></i>
-   </router-link>
+    </router-link>
     <div class="backTop" @click="backTop" v-if="backFlag">
-      <i class="fa fa-arrow-up"></i> 
+      <i class="fa fa-arrow-up"></i>
     </div>
+
+    
   </div>
+   
 </template>
 <script>
-import axios from 'axios'
-import {mapState} from 'vuex'
-import { Toast } from 'mint-ui';
+import axios from "axios";
+import { mapState } from "vuex";
+import { Toast } from "mint-ui";
 export default {
-  computed:{
-    ...mapState(['cars'])
-     
+  computed: {
+    ...mapState(["cars"])
   },
   data() {
     return {
       selected: "1",
       fruits: [],
-      resultFruit:[],
+      resultFruit: [],
       flag: true,
       num: 1,
       backFlag: true,
       url: "",
-       limit: 6,
-       topp:0,
+      limit: 6,
+      topp: 0,
       page: 1,
-      hasMore:true, // 判断是否有更多数据的标志
+      hasMore: true, // 判断是否有更多数据的标志
       loading: false // 默认是false, 触发无限滚动
     };
   },
   methods: {
-    addGoodsToCar(val){
+    toDetail(val) {
+      console.log("val:" + val);
+      this.$router.push({ path: "/detail", query: { CommodityId: val } });
+    },
+    addGoodsToCar(val) {
       // console.log(val)
-				this.$store.dispatch('addGoodsToCar',val)
-				Toast({
-					message: '加入购物车成功',
-					duration: 1000
-					});
-			},
-    getMsg(url,likeName){
-        this.$http.get(url).then(res => {
-      // console.log(res.data.data.object_list);
-      if (likeName === "全部") {
-        this.fruits = res.data.data.object_list;
-      } else {
-        var arrFruit = res.data.data.object_list;
-        var resFruit = arrFruit.filter(item => {
-          if (item.CommodityName.indexOf(likeName) !== -1) {
-            return true;
-          } else {
-            return false;
-          }
-        });
-        this.fruits = resFruit;
-      }
-    });
+      this.$store.dispatch("addGoodsToCar", val);
+      Toast({
+        message: "加入购物车成功",
+        duration: 1000
+      });
+    },
+    getMsg(url, likeName) {
+      this.$http.get(url).then(res => {
+        // console.log(res.data.data.object_list);
+        if (likeName === "全部") {
+          this.fruits = res.data.data.object_list;
+        } else {
+          var arrFruit = res.data.data.object_list;
+          var resFruit = arrFruit.filter(item => {
+            if (item.CommodityName.indexOf(likeName) !== -1) {
+              return true;
+            } else {
+              return false;
+            }
+          });
+
+          this.fruits = resFruit;
+        }
+      });
     },
     backTop() {
       window.scrollTo(0, 0);
@@ -151,34 +160,31 @@ export default {
     }
   },
   created() {
-    
     /* 添加窗口滚动事件监听 */
     window.addEventListener("scroll", function() {
       var topo = document.documentElement.scrollTop;
-       this.topp = topo
-      
+      this.topp = topo;
     });
     // console.log(this.$route.params.id, this.$route.params.name);
     var url = this.$route.params.id;
     var likeName = this.$route.params.name;
-   
+
     /* 用于存放结果的数据 */
     if (url == undefined) {
-       this.$http.get("/api/yg/allCategoryData").then(res => {
-      // console.log(res.data.data.object_list);
+      this.$http.get("/api/yg/allCategoryData").then(res => {
+        // console.log(res.data.data.object_list);
         var arrFruit = res.data.data.object_list;
-          var resFruit = arrFruit.filter(item => {
+        var resFruit = arrFruit.filter(item => {
           if (item.CommodityName.indexOf(likeName) !== -1) {
             return true;
           } else {
             return false;
           }
         });
-        this.fruits = resFruit
-      }
-    );
-    }else{
-      this.getMsg(url,likeName)
+        this.fruits = resFruit;
+      });
+    } else {
+      this.getMsg(url, likeName);
     }
     // 加载完数据执行  按销量排序的方法
     this.sortSell();
@@ -289,10 +295,10 @@ export default {
     font-size: 0.2rem;
   }
 }
-.show{
-  display:block;
+.show {
+  display: block;
 }
-.appear{
-  display:none;
+.appear {
+  display: none;
 }
 </style>

@@ -1,16 +1,18 @@
 <template>
 	<div class="detail">
-		<router-link to="home" tag="div" class="back"><i class="fa fa-arrow-left"></i></router-link> 
-		<img :src="goodInfo.pictureUrl" alt="">
-		<p class="p1">{{goodInfo.commodityName}}</p>
-		<p class="p2">{{goodInfo.subTitle}}</p>
-		<p class="p3">￥{{goodInfo.commodityPrice}}</p> 
+		<div @click="goBack"  class="back"><i class="fa fa-arrow-left"></i></div> 
+		<img :src="goodInfo.SmallPic" alt="">
+		<p class="p1">{{goodInfo.CommodityName}}</p>
+		<p class="p2">{{goodInfo.SubTitle}}</p>
+		<p class="p3">￥{{goodInfo.SellPrice}}</p> 
 		<p class="p5">不支持七天无理由退货</p>
 		<span class="span1">规格</span>
 		<p class="p4">
-			<span>{{goodInfo.commodityUnit}}</span>
-			<span>{{goodInfo.commoditySpec}}</span>
+			<span>{{goodInfo.Spec}}</span>
 		</p>
+	 
+			<span>{{goodInfo.PromotionTag}}</span>
+	 
 		<div class="num">
 			<span>数量</span>
 			<div class="changeNum">
@@ -27,11 +29,15 @@
 	</div>
 </template>
 <script>
+import {mapState} from 'vuex'
+
 	export default {
 		data(){
 			return{
 				num:1,
-				goodInfo:Object
+				goodInfo:Object,
+				path:''
+				
 			}
 		},
 		methods:{
@@ -42,17 +48,22 @@
 				if(this.num > 1){
 					this.num--;
 				}
+			},
+			getDetailData(){
+				var url = this.$route.query.CommodityId
+				console.log(url)
+				this.$http.get("/api/yg/allCategoryList/" + url).then(res=>{
+				console.log(res)
+				this.goodInfo = res.data.data.object_list[0]
+			})
+			},
+			goBack(){
+				this.$router.push({path:this.path})
 			}
 		},
 		created(){
-			this.$http.get("/api/yg/" + this.$route.params.api).then(res=>{
-                for(var i in res.data.data.object_list){
-                	if(res.data.data.object_list[i]._id == this.$route.params.id){
-                		 this.goodInfo = Object.assign({},res.data.data.object_list[i].commoditysComponentList[0])
-                	}
-                }
-			})	
-		}
+				this.getDetailData();
+		} 
 	}
 </script>
 <style lang="scss" scoped>
